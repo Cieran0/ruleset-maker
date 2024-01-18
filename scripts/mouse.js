@@ -9,22 +9,28 @@ class MouseHandler {
     }
 
     static handleMouse(mousePos) {
-        if(game.promo != null) {
+        if(mousePos.x == 8 && mousePos.y == 8) {
+            nextPiece();
+            Canvas.drawBoard();
             return;
         }
-        if(selectedPiece == null) {
-            if(game.get(mousePos) != null) {
-                selectedPiece = (game.get(mousePos).team == game.turn)? Position.copyPos(mousePos) : null;
-                console.log(selectedPiece)
-            }
+
+        if(contains(moves[selectedPiece].blocking,mousePos)) {
+            moves[selectedPiece].blocking = moves[selectedPiece].blocking.filter(function (element) {
+                return element.x != mousePos.x || element.y != mousePos.y;
+            });
+            moves[selectedPiece].jumping.push(mousePos);
+        } else if(contains(moves[selectedPiece].jumping,mousePos)) {
+            moves[selectedPiece].jumping = moves[selectedPiece].jumping.filter(function (element) {
+                return element.x != mousePos.x || element.y != mousePos.y;
+            });
+            moves[selectedPiece].first.push(mousePos);
+        }else if(contains(moves[selectedPiece].first,mousePos)) {
+            moves[selectedPiece].first = moves[selectedPiece].first.filter(function (element) {
+                return element.x != mousePos.x || element.y != mousePos.y;
+            });
         } else {
-            if(contains(game.getValidMoves(selectedPiece),mousePos)) {
-                game.move(selectedPiece,mousePos);
-                selectedPiece = null;
-                game.nextTurn();
-            } else {
-                selectedPiece = null;
-            }
+            moves[selectedPiece].blocking.push(mousePos);
         }
         Canvas.drawBoard();
     }

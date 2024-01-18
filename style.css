@@ -20,6 +20,7 @@ h1 {
     z-index: 1;
     width: 100%;
     margin: auto;
+    user-select: none;
 }
 
 dialog {
@@ -35,13 +36,8 @@ dialog {
 }
 
 button {
-    border: 0;
-    margin: 0;
-    padding: 0;
-    background-image: url("pieces/bBISHOP.png");
-    background-size: 75px;
-    width: 75px;
-    height: 75px;
+    margin: auto;
+    display: block;
 }
 
 img {

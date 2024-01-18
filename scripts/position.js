@@ -9,7 +9,7 @@ class Position {
     }
 
     static norm(pos) {
-        return (new Position(Math.floor(pos.x/75),Math.floor(pos.y/75)));
+        return (new Position(Math.floor(pos.x/40),Math.floor(pos.y/40)));
     }
 
     equals(pos) {

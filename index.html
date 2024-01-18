@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Chess</title>
+    <title>Ruleset Maker for MultiChess</title>
     <link rel="stylesheet" href="style.css">
-    <script src="scripts/buttons.js"></script>
     <script src="scripts/position.js"></script>
     <script src="scripts/mouse.js"></script>
-    <script src="scripts/piece.js"></script>
-    <script src="scripts/game.js"></script>
     <script src="scripts/canvas.js"></script>
     <script src="scripts/main.js"></script>
 </head>
 <body>
     <div id="main">
-        <canvas id="board" width="600" height="600"></canvas>
-        <h1 id="turn"> Turn: white</h1>
-        <h1 id="check"></h1>
+        <canvas id="board" width="680" height="680"></canvas>
+        <h1 id="turn"> Piece: Pawn</h1>
+        <button id="save" onclick="save()">
+            Save
+        </button>
+        <button id="load" onclick="load()">
+            load
+        </button>
     </div>
+
     <dialog id="dialog">
         <button id="queen"></button>
         <button id="bishop"></button>
