@@ -9,6 +9,8 @@ class MouseHandler {
     }
 
     static handleMouse(mousePos) {
+        if(!moving && !taking)
+            return;
         if(mousePos.x == 8 && mousePos.y == 8) {
             return;
         }
