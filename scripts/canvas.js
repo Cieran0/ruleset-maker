@@ -7,19 +7,14 @@ class Canvas {
         this.ctx = c.getContext("2d");
         this.ctx.beginPath();
         this.ctx.rect(0, 0, 800, 800);
-        this.ctx.fillStyle = "white";
+        this.ctx.fillStyle = "#EE90EE";
         this.ctx.fill();
         for (let i = 0; i <17; i++) {
             this.drawLine(i);
         }
-        moves[selectedPiece].blocking.forEach(pos => {
-            this.drawSquare(pos.x,pos.y,"#FF0000");
-        });
-        moves[selectedPiece].jumping.forEach(pos => {
-            this.drawSquare(pos.x,pos.y,"#5555FF");
-        });
-        moves[selectedPiece].first.forEach(pos => {
-            this.drawSquare(pos.x,pos.y,"#FFFF00");
+        moves[selectedPiece].moves.forEach(move => {
+            const colour = colorCombinations[(move.first ? '1' : '0') + (move.taking ? '1' : '0') + (move.jumping ? '1' : '0') + (move.moving ? '1' : '0')];
+            this.drawSquare(move.x,move.y,colour);
         });
         this.drawPiece(8,8,selectedPiece,"w");
         document.getElementById("turn").innerHTML = "Piece: " + selectedPiece;
@@ -28,7 +23,7 @@ class Canvas {
     static drawLine(y) {
         var start = (y%2 == 0)? 1 : 0;
         for (;start < 17; start+=2) {
-            this.drawSquare(start,y, " #46AA22");
+            this.drawSquare(start,y, " #90EE90");
         }
     }
     

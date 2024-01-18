@@ -1,13 +1,52 @@
 let game = null;
 var selectedPiece = "pawn";
 
+var isMouseDown = false;
+
+var moving = false; //F
+var jumping = false; // RED = on
+var first = false; // GREEN = on
+var taking = false; // BLUE = on
+var clearing = false;
+
+/**
+ * Move template 
+ * {
+ *  moving: true,
+ *  jumping: false,
+ *  taking: true,
+ *  first: false
+ * }
+ * 
+*/
+
+const colorCombinations = {
+    '0000': 'gray',
+    '0001': 'red',
+    '0010': 'blue',
+    '0011': 'purple',
+    '0100': 'green',
+    '0101': 'yellow',
+    '0110': 'cyan',
+    '0111': 'white',
+    '1000': 'brown',
+    '1001': 'pink',
+    '1010': 'orange',
+    '1011': 'lightgreen',
+    '1100': 'lightblue',
+    '1101': 'violet',
+    '1110': 'gold',
+    '1111': 'black',
+  };
+
+
 var moves = {};
-moves["pawn"] = {blocking: [], jumping: [], first:[]};
-moves["rook"] = {blocking: [], jumping: [], first:[]};
-moves["bishop"] = {blocking: [], jumping: [], first:[]};
-moves["queen"] = {blocking: [], jumping: [], first:[]};
-moves["king"] = {blocking: [], jumping: [], first:[]};
-moves["knight"] = {blocking: [], jumping: [], first:[]};
+moves["pawn"] = {moves: []};
+moves["rook"] = {moves: []};
+moves["bishop"] = {moves: []};
+moves["queen"] = {moves: []};
+moves["king"] = {moves: []};
+moves["knight"] = {moves: []};
 
 
 window.onload = function() {
@@ -54,16 +93,8 @@ function getRuleSet() {
     str = "";
     piecesNames.forEach(piece => {
         string = piece+"M";
-        moves[piece].blocking.forEach(element => {
-            string += (element.x-8) + "," + (element.y-8) + "|";
-        });
-        string += "#"
-        moves[piece].jumping.forEach(element => {
-            string += (element.x-8) + "," + (element.y-8) + "|";
-        });
-        string += "#"
-        moves[piece].first.forEach(element => {
-            string += (element.x-8) + "," + (element.y-8) + "|";
+        moves[piece].moves.forEach(element => {
+            string += (element.x-8) + "," + (element.y-8) + "," + Number(element.moving) + "," + Number(element.jumping) + "," + Number(element.taking) + "," + Number(element.first) + "|";
         });
         string += "&"
         str += string
@@ -83,6 +114,10 @@ function getMoves(movesString) {
             movePos = {
                 x: parseInt(moveSplit[0]) + 8,
                 y: parseInt(moveSplit[1]) + 8,
+                moving: parseInt(moveSplit[2]) == 1,
+                jumping: parseInt(moveSplit[3]) == 1,
+                taking: parseInt(moveSplit[4]) == 1,
+                first: parseInt(moveSplit[5]) == 1,
             }
             movesArray.push(movePos);
         }
@@ -107,10 +142,7 @@ function setRuleSet(input) {
         }
         allMoves = allMovesArray[i].split('M')[1];
         //console.log(allMovesArray);
-        blockJumpFirstArray = allMoves.split('#');
-        moves[piece].blocking = getMoves(blockJumpFirstArray[0]);
-        moves[piece].jumping = getMoves(blockJumpFirstArray[1]);
-        moves[piece].first = getMoves(blockJumpFirstArray[2]);
+        moves[piece].moves = getMoves(allMoves);
     });
     console.log(moves);
 }
@@ -120,3 +152,27 @@ function load() {
     Canvas.drawBoard();
 }
 
+function toggleMoving() {
+    moving = !moving;
+    document.getElementById("toggleMoving").innerHTML = "Moving: " + moving;
+}
+
+function toggleJumping() {
+    jumping = !jumping;
+    document.getElementById("toggleJumping").innerHTML = "Jumping: " + jumping;
+}
+
+function toggleFirst() {
+    first = !first;
+    document.getElementById("toggleFirst").innerHTML = "First: " + first;
+}
+
+function toggleTaking() {
+    taking = !taking;
+    document.getElementById("toggleTaking").innerHTML = "Taking: " + taking;
+}
+
+function toggleClear() {
+    clearing = !clearing;
+    document.getElementById("toggleClear").innerHTML = "Clearing: " + clearing;
+}
